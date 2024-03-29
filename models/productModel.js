@@ -90,11 +90,11 @@ async function getProductBySubCategoryNameWithProducts(
     }
 
     // Find subcategories for the given category_id
-    const products = await productCollection.find({ Subcategory_resId: subcategory._id }).toArray();
+    const Products = await productCollection.find({ Subcategory_resId: subcategory._id }).toArray();
 
 
 
-    return { subcategory, products }; // Return both category and subcategories
+    return { subcategory, Products }; // Return both category and subcategories
   } catch (error) {
     throw error;
   }
