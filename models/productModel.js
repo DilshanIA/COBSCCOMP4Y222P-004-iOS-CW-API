@@ -7,6 +7,7 @@ const productSchema = new Schema({
     ref: 'Category',
     required: true,
   },
+  Id:{type: Number},
   Product_Name: { type: String, required: true },
   Description:{type: String, required: true},
   imageurl: { type: String, required: true },

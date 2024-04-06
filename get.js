@@ -1,76 +1,73 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-
 const app = express();
 
-const uri = 
 mongoose.connect('mongodb+srv://dilshanamarasinghe049:HD9oGQgTZtvHi4YG@cluster1.lqorvvt.mongodb.net/', {
    useNewUrlParser: true,
    useUnifiedTopology: true,
 });
 
-
 const Schema = mongoose.Schema;
 
-
-
-
-const orderSchema = new Schema({
-  userId: {
+const productSchema = new Schema({
+  categoryID: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Category',
     required: true,
   },
-  products: [
-
-    {
-      cartItemId: {
-        type: Schema.Types.ObjectId,
-        ref: 'newCartItem',
-        required: true,
-      }
-
-    },
-  ],
+  Id:{type: Number},
+  Product_Name: { type: String, required: true },
+  Description:{type: String, required: true},
+  imageurl: { type: String, required: true },
+  price: { type: Number, required: true },
+  Availability: { type: Number, default: 1 },
+  Availablesize: { type: [String], required: true },
+  Availablecolor: { type: [String], required: true },
 });
 
-const Order = mongoose.model('Order', orderSchema);
+const Product = mongoose.model('Product', productSchema);
 
-
-
-async function insertInitialOrderData() {
+async function insertInitialProductData() {
   try {
-    // Check if there are any existing orders
-    const count = await Order.countDocuments();
+    // Check if there are any existing products
+    const count = await Product.countDocuments();
     if (count === 0) {
-      // Insert initial orders
-      await Order.insertMany([
+      // Insert initial products
+      await Product.insertMany([
         {
-          userId: '6610dc34883f8b8948bb235e',
-          products: [
-            { cartItemId: '6610de1cf2a66604c56e9603' },
-            { cartItemId: '6610de1cf2a66604c56e9605' }
-          ]
+          categoryID: '6610cde6aba25846408452fb',
+          Id: 1,
+          Product_Name: 'Product 1',
+          Description: 'Description of Product 1',
+          imageurl: 'image_url_of_product_1',
+          price: 10,
+          Availablesize: ['Small', 'Medium', 'Large'],
+          Availablecolor: ['Red', 'Blue', 'Green']
         },
         {
-          userId: '6610dc34883f8b8948bb235f',
-          products: [
-            { cartItemId: '6610de1cf2a66604c56e9604' }
-          ]
-        }
+          categoryID: '6610cde6aba25846408452fc',
+          Id: 2,
+          Product_Name: 'Product 2',
+          Description: 'Description of Product 2',
+          imageurl: 'image_url_of_product_2',
+          price: 20,
+          Availablesize: ['Small', 'Medium'],
+          Availablecolor: ['Red', 'Blue']
+        },
+        // Add more products as needed
       ]);
-      console.log('Initial order data inserted successfully.');
+      console.log('Initial product data inserted successfully.');
     }
   } catch (error) {
-    console.error('Error inserting initial order data:', error);
+    console.error('Error inserting initial product data:', error);
   }
 }
 
-// Call the function to insert initial order data when server starts
+// Call the function to insert initial product data when server starts
 async function startServer() {
   try {
-    await insertInitialOrderData();
+    await insertInitialProductData();
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
