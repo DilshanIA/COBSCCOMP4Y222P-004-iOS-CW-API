@@ -14,11 +14,18 @@ async function create(req, res) {
 async function get(req, res) {
   try {
     const products = await Product.find({});
-    res.status(201).json(products);
+    
+    // Manipulate the products array to fit your desired format
+    const formattedProducts = products.map(product => ({
+      Product: product
+    }));
+    
+    res.status(200).json(formattedProducts);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 }
+
 
 async function getbyid(req, res) {
   const id = req.params.id;
