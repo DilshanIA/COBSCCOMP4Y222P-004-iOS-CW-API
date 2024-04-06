@@ -1,10 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const controller = require('../controllers/productController');
+const controller = require('../controllers/orderController');
 
 const router = express.Router();
-
 router.use(bodyParser.json());
 
 router.get('/', controller.get);
@@ -12,8 +11,6 @@ router.get('/', controller.get);
 router.post('/', controller.create);
 
 router.get('/:id', controller.getbyid);
-
-router.get('/catogory/:id', controller.getbycatid);
 
 router.delete('/:id', controller.remove);
 

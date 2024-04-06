@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const controller = require('../controllers/productController');
+const controller = require('../controllers/cartController');
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.post('/', controller.create);
 
 router.get('/:id', controller.getbyid);
 
-router.get('/catogory/:id', controller.getbycatid);
+router.get('/user/:id', controller.getUserCartItems);
 
 router.delete('/:id', controller.remove);
 
