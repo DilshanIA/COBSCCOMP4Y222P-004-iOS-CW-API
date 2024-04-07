@@ -7,6 +7,7 @@ const categoryRoutes = require('./routes/categoryRoutes');
 const userRoutes = require('./routes/userRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const subCategoryRoute = require('./routes/subcategoryRoutes');
 dotenv.config();
 
 const app = express();
@@ -31,6 +32,7 @@ app.use('/categories', categoryRoutes);
 app.use('/user', userRoutes);
 app.use('/cart', cartRoutes);
 app.use('/order', orderRoutes);
+app.use('/subcategory', subCategoryRoute);
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

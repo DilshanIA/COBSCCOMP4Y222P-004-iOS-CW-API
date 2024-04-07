@@ -1,4 +1,5 @@
 const Product = require('../models/productModel');
+const SubCategory = require('../models/subcategoryModel');
 require('dotenv').config();
 
 async function create(req, res) {
@@ -11,6 +12,15 @@ async function create(req, res) {
   }
 }
 
+// async function get(req, res) {
+//   try {
+//     const products = await Product.find({});
+//     res.status(201).json(products);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// }
+
 async function get(req, res) {
   try {
     const products = await Product.find({});
@@ -19,7 +29,6 @@ async function get(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
-
 
 async function getbyid(req, res) {
   const id = req.params.id;
@@ -64,21 +73,63 @@ async function update(req, res) {
   }
 }
 
+// async function getbycatid(req, res) {
+//   try {
+//     const id = req.params.id;
+//     const items = await Product.find({ subcategoryID: id }).exec();
+
+//     if (items.length > 0) {
+//       res.status(200).json(items);
+//     } else {
+//       res.status(404).send('Items not found');
+//     }
+//   } catch (error) {
+//     console.error('Error finding items by sub category ID:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// }
+
 async function getbycatid(req, res) {
   try {
     const id = req.params.id;
-    const items = await Product.find({ categoryID: id }).exec();
+    const items = await Product.find({ subcategoryID: id }).exec();
 
     if (items.length > 0) {
-      res.status(200).json(items);
+      res.status(200).json({ Products: items });
     } else {
       res.status(404).send('Items not found');
     }
   } catch (error) {
-    console.error('Error finding items by category ID:', error);
+    console.error('Error finding items by sub category ID:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
+
+async function getbycatname(req, res) {
+  try {
+    const name = req.params.name;
+    
+    // Find the subcategory by name
+    const subcategory = await SubCategory.findOne({ Subcategory_name: name }).exec();
+    
+    if (!subcategory) {
+      return res.status(404).send('Subcategory not found');
+    }
+
+    // Find products by subcategory ID
+    const items = await Product.find({ subcategoryID: subcategory._id }).exec();
+
+    if (items.length > 0) {
+      res.status(200).json({ Products: items });
+    } else {
+      res.status(404).send('Products not found for the subcategory');
+    }
+  } catch (error) {
+    console.error('Error finding products by subcategory name:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 
 module.exports = {
   get: get,
@@ -87,4 +138,5 @@ module.exports = {
   remove: remove,
   update: update,
   getbycatid: getbycatid,
+  getbycatname: getbycatname
 };

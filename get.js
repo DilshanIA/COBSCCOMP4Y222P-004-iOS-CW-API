@@ -11,19 +11,20 @@ mongoose.connect('mongodb+srv://dilshanamarasinghe049:HD9oGQgTZtvHi4YG@cluster1.
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
-  categoryID: {
+  subcategoryID: {
     type: Schema.Types.ObjectId,
-    ref: 'Category',
+    ref: 'SubCategory',
     required: true,
   },
-  Id:{type: Number},
-  Product_Name: { type: String, required: true },
+  Product_name: { type: String, required: true },
+  id: { type: Number, required: true },
   Description:{type: String, required: true},
-  imageurl: { type: String, required: true },
-  price: { type: Number, required: true },
+  Image_url: { type: String, required: true },
+  Price: { type: Number, required: true },
   Availability: { type: Number, default: 1 },
-  Availablesize: { type: [String], required: true },
-  Availablecolor: { type: [String], required: true },
+  Tags: { type: [String], required: true },
+  availablesize: { type: [String], required: true },
+  availablecolor: { type: [String], required: true },
 });
 
 const Product = mongoose.model('Product', productSchema);
@@ -36,24 +37,26 @@ async function insertInitialProductData() {
       // Insert initial products
       await Product.insertMany([
         {
-          categoryID: '6610cde6aba25846408452fb',
-          Id: 1,
-          Product_Name: 'Product 1',
+          subcategoryID: '6612236cc818af414b35b0e2',
+          Product_name: 'Product 1',
+          id: 1,
           Description: 'Description of Product 1',
-          imageurl: 'image_url_of_product_1',
-          price: 10,
-          Availablesize: ['Small', 'Medium', 'Large'],
-          Availablecolor: ['Red', 'Blue', 'Green']
+          Image_url: 'image_url_of_product_1',
+          Price: 10,
+          Tags: ['tag1', 'tag2'],
+          availablesize: ['Small', 'Medium', 'Large'],
+          availablecolor: ['Red', 'Blue', 'Green']
         },
         {
-          categoryID: '6610cde6aba25846408452fc',
-          Id: 2,
-          Product_Name: 'Product 2',
+          subcategoryID: '6612236cc818af414b35b0e3',
+          Product_name: 'Product 2',
+          id: 2,
           Description: 'Description of Product 2',
-          imageurl: 'image_url_of_product_2',
-          price: 20,
-          Availablesize: ['Small', 'Medium'],
-          Availablecolor: ['Red', 'Blue']
+          Image_url: 'image_url_of_product_2',
+          Price: 20,
+          Tags: ['tag3', 'tag4'],
+          availablesize: ['Small', 'Medium'],
+          availablecolor: ['Black', 'White']
         },
         // Add more products as needed
       ]);
